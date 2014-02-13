@@ -3,7 +3,7 @@
 \alias{plotMakefile}
 \docType{package}
 \title{Parse and plot Makefiles}
-\description{Makefiles encode dependency trees between files in a project,
+\description{A Makefile encodes a dependency tree between files in a project,
 which can be visualized using plotMakefile("path/to/Makefile").}
 \details{
 \tabular{ll}{Package: \tab plotMakefile\cr
