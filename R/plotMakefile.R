@@ -6,6 +6,11 @@ plotMakefile <- structure(function
 ### Function that takes a numeric vector of vertical/y values of the
 ### file names to plot, and returns the files names in the order they
 ### should appear on the plot.
+ colors=NULL,
+### Named character vector that maps categories to plot colors.
+ categories=NULL,
+### Named character vector that maps each category to a regular
+### expression for matching filenames.
  curve=0,
 ### passed to plotmat.
  segment.from=0.1,
@@ -13,9 +18,14 @@ plotMakefile <- structure(function
  segment.to=0.9,
 ### passed to plotmat.
  box.type="none",
+### passed to plotmat.
+ legend.x="bottom",
+### passed to legend as x.
  ...
 ### passed to plotmat.
  ){
+  stopifnot(is.character(makefile))
+  stopifnot(length(makefile) == 1)
   pat <- paste0("(?<target>[^:]+)",
                 ":\\W*",
                 "(?<depends>.*?)",
@@ -65,9 +75,39 @@ plotMakefile <- structure(function
     to <- usedfor[[from]]
     edges[to, from] <- ""
   }
+  ## Default categories.
+  if(is.null(categories)){
+    ext <- sub(".*[.]", "", sorted.names)
+    has.dot <- grepl("[.]", sorted.names)
+    ext[!has.dot] <- ""
+    uext <- unique(ext)
+    categories <- paste0(uext, "$")
+    uext[uext==""] <- "other"
+    names(categories) <- uext
+  }
+  ## Default color palette.
+  if(is.null(colors)){
+    colors <- if(length(categories) == 1){
+      "black"
+    }else if(require(RColorBrewer)){
+      brewer.pal(length(categories), "Dark2")
+    }else{
+      rainbow(length(categories))
+    }
+    names(colors) <- names(categories)
+  }
+  txt.col <- rep(NA, length(sorted))
+  for(cname in names(categories)){
+    pat <- categories[[cname]]
+    txt.col[grep(pat, sorted.names)] <- colors[[cname]]
+  }
   plotmat(edges, pos=counts, box.type=box.type, name=names(sorted),
+          txt.col=txt.col,
           curve=curve, segment.from=segment.from, segment.to=segment.to,
           ...)
+  if(length(colors) > 1){
+    legend(legend.x, names(colors), fill=colors)
+  }
 ### Return value of plotmat.
 },ex=function(){
   ## Default sorting may result in a plot with edge crossings.
@@ -80,4 +120,7 @@ plotMakefile <- structure(function
                        "sample.list.RData", "table-noise.R")
   plotMakefile(f, sort.fun=sorter,
                main="custom capture variant detection project")
+  ## If you want to just plot everything in black without a legend,
+  ## specify that all files belong to the same category.
+  plotMakefile(f, categories=".*")
 })

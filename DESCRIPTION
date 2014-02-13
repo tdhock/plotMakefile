@@ -7,3 +7,4 @@ Title: Parse and plot Makefiles
 Description: A Makefile encodes a dependency tree between files in a project,
  which can be visualized using plotMakefile("path/to/Makefile").
 Depends: diagram
+Suggests: RColorBrewer
