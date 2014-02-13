@@ -1,0 +1,12 @@
+Parse and plot Makefiles
+
+A Makefile encodes a dependency tree between files in a project, which
+can be visualized using plotMakefile("path/to/Makefile").
+
+#+BEGIN_SRC R
+install.packages("devtools")
+library(devtools)
+install_github("plotMakefile", "tdhock")
+library(plotMakefile)
+example(plotMakefile)
+#+END_SRC
