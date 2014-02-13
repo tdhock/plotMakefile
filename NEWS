@@ -1,0 +1,10 @@
+TODO
+
+Implement a dynamic programming algorithm for finding the permutation
+of files that results in minimum edge crossings (and edge distance as
+a tiebreak).
+
+2014.2.13
+
+plotMakefile parses Makefiles and plots the tree using
+library(diagram).

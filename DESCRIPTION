@@ -1,0 +1,8 @@
+Package: plotMakefile
+Maintainer: Toby Dylan Hocking <tdhock5@gmail.com>
+Author: Toby Dylan Hocking
+Version: 2014.2.13
+License: GPL-3
+Title: Parse and plot Makefiles
+Description: Makefiles encode dependency trees between files in a project,
+ which can be visualized using plotMakefile("path/to/Makefile").
