@@ -21,7 +21,8 @@ expression for matching filenames.}
   \item{\dots}{passed to plotmat.}
 }
 
-\value{Return value of plotmat.}
+\value{Return value of plotmat, plus colors used in the legend, and
+categories for the text labels.}
 
 \author{Toby Dylan Hocking}
 

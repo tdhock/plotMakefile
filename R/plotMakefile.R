@@ -97,18 +97,29 @@ plotMakefile <- structure(function
     names(colors) <- names(categories)
   }
   txt.col <- rep(NA, length(sorted))
+  txt.category <- rep(NA, length(sorted))
   for(cname in names(categories)){
     pat <- categories[[cname]]
-    txt.col[grep(pat, sorted.names)] <- colors[[cname]]
+    match <- grep(pat, sorted.names)
+    if(length(match)){
+      txt.col[match] <- colors[[cname]]
+      txt.category[match] <- cname
+    }else{
+      colors <- colors[names(colors)!=cname]
+    }
   }
-  plotmat(edges, pos=counts, box.type=box.type, name=names(sorted),
-          txt.col=txt.col,
-          curve=curve, segment.from=segment.from, segment.to=segment.to,
-          ...)
+  info <- plotmat(edges, pos=counts, box.type=box.type, name=names(sorted),
+                  txt.col=txt.col,
+                  curve=curve, segment.from=segment.from, segment.to=segment.to,
+                  ...)
   if(length(colors) > 1){
     legend(legend.x, names(colors), fill=colors)
   }
-### Return value of plotmat.
+  info$colors <- colors
+  info$text <- data.frame(info$comp, file=names(sorted), category=txt.category)
+  invisible(info)
+### Return value of plotmat, plus colors used in the legend, and
+### categories for the text labels.
 },ex=function(){
   ## Default sorting may result in a plot with edge crossings.
   f <- system.file(file.path("Makefiles", "custom-capture.mk"),
