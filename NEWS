@@ -6,5 +6,5 @@ a tiebreak).
 
 2014.2.13
 
-plotMakefile parses Makefiles and plots the tree using
+plotMakefile parses Makefiles and plots the DAG using
 library(diagram).
